@@ -212,23 +212,20 @@
     CGFloat viewWidth = self.viewController.view.bounds.size.width;
     CGFloat viewHeight = self.viewController.view.bounds.size.height;
 
-    //fullView is gloabal, So we can acess any time to remove it
+    //fullView is global, so we can access it anytime to remove it
     fullView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
     [fullView setBackgroundColor:[UIColor blackColor]];
 
-    // For supporting zoom,
+    // For supporting zoom
     fullView.minimumZoomScale = 1.0;
     fullView.maximumZoomScale = 3.0;
     fullView.clipsToBounds = YES;
     fullView.delegate = self;
 
-    imageView = [[UIImageView alloc]init];
-    [imageView setContentMode:UIViewContentModeScaleAspectFit];
+    imageView = [[UIImageView alloc] initWithContentMode:UIViewContentModeScaleAspectFit];
     UIImage *image = [UIImage imageWithContentsOfFile:url.path];
-    [imageView setBackgroundColor:[UIColor clearColor]];
     imageView.image = image;
     imageView.contentMode = UIViewContentModeScaleAspectFit;
-
     [imageView setFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
 
     [fullView addSubview:imageView];
@@ -236,29 +233,31 @@
 
     [self.viewController.view addSubview:fullView];
 
-    if(showCloseBtn) {
+    if (showCloseBtn) {
         closeBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         [closeBtn setTitle:@"✕" forState:UIControlStateNormal];
-        closeBtn.titleLabel.font = [UIFont systemFontOfSize: 32];
-        [closeBtn setTitleColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.6] forState:UIControlStateNormal];
-        [closeBtn setFrame:CGRectMake(0, viewHeight - 50, viewWidth, 50)];
-        closeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        closeBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-        [closeBtn setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.6]];
+        closeBtn.titleLabel.font = [UIFont systemFontOfSize:32];
+        [closeBtn setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.6] forState:UIControlStateNormal];
+
+        closeBtn.frame = CGRectMake(viewWidth - 60, viewHeight - 60, 50, 50);
+        closeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        closeBtn.contentEdgeInsets = UIEdgeInsetsZero;
+        [closeBtn setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.6]];
         [closeBtn addTarget:self action:@selector(closeButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+
         [self.viewController.view addSubview:closeBtn];
-        
+
         imageLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, viewHeight - 50, viewWidth - 120, 50)];
         imageLabel.numberOfLines = 0;
         imageLabel.lineBreakMode = NSLineBreakByWordWrapping;
         imageLabel.minimumScaleFactor = 0.5;
         imageLabel.adjustsFontSizeToFitWidth = YES;
-        
-        [imageLabel setTextAlignment:NSTextAlignmentCenter];
-        [imageLabel setTextColor:[UIColor whiteColor]];
-        [imageLabel setBackgroundColor:[UIColor clearColor]];
-        [imageLabel setFont:[UIFont fontWithName: @"San Fransisco" size: 14.0f]];
-        [imageLabel setText:title];
+        imageLabel.textAlignment = NSTextAlignmentCenter;
+        imageLabel.textColor = [UIColor whiteColor];
+        imageLabel.backgroundColor = [UIColor clearColor];
+        imageLabel.font = [UIFont fontWithName:@"San Francisco" size:14.0f];
+        imageLabel.text = title;
+
         [self.viewController.view addSubview:imageLabel];
         
     } else {
